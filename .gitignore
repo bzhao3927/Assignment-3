@@ -1,0 +1,81 @@
+# Standard .gitignore file for a general project
+
+# --- Operating System Files ---
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Build / Compilation Files (Common for LaTeX and other compilers) ---
+
+# LaTeX Auxiliary files (essential to ignore to keep repo clean)
+
+*.aux
+*.bbl
+*.blg
+*.log
+*.lof
+*.lot
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.nav
+*.snm
+
+# Compiled PDF files - keep only source .tex files
+
+*.pdf
+
+# --- Deep Learning Specific Exclusions ---
+
+# Large checkpoint files
+
+*.pth
+*.pt
+*.h5
+*.hdf5
+
+# Large log and data folders (like the 428MB file you mentioned)
+
+logs/
+data/
+output/
+checkpoints/
+
+# --- Dependency/Virtual Environment Files (Crucial for the 428MB file!) ---
+
+# Python virtual environment folder
+
+venv/
+.venv/
+__pycache__/
+
+# Compiled Python files
+
+*.pyc
+*.pyd
+
+# Node.js dependencies
+
+node_modules/
+npm-debug.log
+
+# --- Editor/IDE Files (e.g., VS Code) ---
+
+.vscode/
+.idea/
+*~
+
+# Auto-backup files
+
+#*#
+
+# --- Temporary/Output Files ---
+
+# Logs and temporary data
+
+*.tmp
+*.log
+*.swp
