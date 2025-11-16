@@ -93,6 +93,8 @@ pl.seed_everything(42)
 ## Weights & Biases
 View training logs and metrics: https://wandb.ai/bzhao-hamilton-college/imdb-sentiment-bilstm
 
+**Best run:** `run-20251116_091101-al59qmc0` (Test Acc: 85.35%, Val Acc: 86.03%)
+
 ## References
 - Dataset: [IMDB 50K](https://ai.stanford.edu/~amaas/data/sentiment/)
 - Framework: PyTorch Lightning
