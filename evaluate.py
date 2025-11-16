@@ -7,6 +7,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 from transformers import BertTokenizer
+import wandb
 
 def plot_confusion_matrix(y_true, y_pred, save_path='confusion_matrix.png'):
     """Plot and save confusion matrix"""
@@ -26,11 +27,12 @@ def plot_confusion_matrix(y_true, y_pred, save_path='confusion_matrix.png'):
     plt.title('Confusion Matrix')
     plt.tight_layout()
     plt.savefig(save_path, dpi=300)
-    plt.close()
     
     print(f"Confusion matrix saved to {save_path}")
     print("\nConfusion Matrix:")
     print(cm)
+    
+    return plt.gcf()  # Return figure for W&B logging
 
 def find_misclassified_examples(model, data_module, num_examples=3):
     """Find and print misclassified examples"""
@@ -49,7 +51,7 @@ def find_misclassified_examples(model, data_module, num_examples=3):
             labels = batch['label'].to(model.device)
             
             logits = model(input_ids, attention_mask)
-            preds = torch.argmax(logits, dim=1)
+            preds = (torch.sigmoid(logits) > 0.5).long()
             
             # Find misclassified samples in this batch
             for i in range(len(labels)):
@@ -69,9 +71,17 @@ def find_misclassified_examples(model, data_module, num_examples=3):
     
     return misclassified
 
-def evaluate_model(checkpoint_path):
+def evaluate_model(checkpoint_path, log_to_wandb=True):
     """Load model and evaluate on test set"""
     pl.seed_everything(42)
+    
+    # Initialize W&B if requested
+    if log_to_wandb:
+        wandb.init(
+            project='imdb-sentiment-bilstm',
+            name='evaluation',
+            job_type='evaluation'
+        )
     
     # Load data module
     data_module = IMDBDataModule(batch_size=32, max_length=256, num_workers=4)
@@ -110,18 +120,25 @@ def evaluate_model(checkpoint_path):
             labels = batch['label']
             
             logits = model(input_ids, attention_mask)
-            preds = torch.argmax(logits, dim=1).cpu().numpy()
+            preds = (torch.sigmoid(logits) > 0.5).long().cpu().numpy()
             
             predictions.extend(preds)
             true_labels.extend(labels.numpy())
     
     # Plot confusion matrix
-    plot_confusion_matrix(true_labels, predictions)
+    fig = plot_confusion_matrix(true_labels, predictions)
     
     # Print classification report
     print("\n" + "="*50)
     print("CLASSIFICATION REPORT")
     print("="*50)
+    report = classification_report(
+        true_labels, 
+        predictions,
+        target_names=['Negative', 'Positive'],
+        digits=4,
+        output_dict=True
+    )
     print(classification_report(
         true_labels, 
         predictions,
@@ -135,20 +152,62 @@ def evaluate_model(checkpoint_path):
     print("="*50)
     misclassified = find_misclassified_examples(model, data_module, num_examples=3)
     
+    # Create misclassified examples table for W&B
+    misclassified_table = []
     for i, example in enumerate(misclassified, 1):
         print(f"\nExample {i}:")
         print(f"True Label: {example['true_label']}")
         print(f"Predicted Label: {example['predicted_label']}")
-        print(f"Text: {example['text'][:200]}...")  # First 200 chars
+        print(f"Text: {example['text'][:200]}...")
         print("-" * 50)
+        
+        misclassified_table.append([
+            i,
+            example['true_label'],
+            example['predicted_label'],
+            example['text'][:200]
+        ])
+    
+    # Log to W&B
+    if log_to_wandb:
+        # Log metrics
+        wandb.log({
+            'eval/test_accuracy': test_results[0]['test_acc'],
+            'eval/test_loss': test_results[0]['test_loss'],
+            'eval/precision_negative': report['Negative']['precision'],
+            'eval/precision_positive': report['Positive']['precision'],
+            'eval/recall_negative': report['Negative']['recall'],
+            'eval/recall_positive': report['Positive']['recall'],
+            'eval/f1_negative': report['Negative']['f1-score'],
+            'eval/f1_positive': report['Positive']['f1-score'],
+            'eval/macro_avg_f1': report['macro avg']['f1-score'],
+        })
+        
+        # Log confusion matrix
+        wandb.log({"eval/confusion_matrix": wandb.Image(fig)})
+        
+        # Log misclassified examples table
+        wandb.log({
+            "eval/misclassified_examples": wandb.Table(
+                columns=["Example #", "True Label", "Predicted Label", "Text (truncated)"],
+                data=misclassified_table
+            )
+        })
+        
+        wandb.finish()
+        print("\n✓ Results logged to W&B")
+    
+    plt.close()
 
 if __name__ == '__main__':
     import sys
     
     if len(sys.argv) < 2:
-        print("Usage: python evaluate.py <checkpoint_path>")
+        print("Usage: python evaluate.py <checkpoint_path> [--no-wandb]")
         print("Example: python evaluate.py checkpoints/bilstm-epoch=05-val_loss=0.25.ckpt")
         sys.exit(1)
     
     checkpoint_path = sys.argv[1]
-    evaluate_model(checkpoint_path)
+    log_to_wandb = '--no-wandb' not in sys.argv
+    
+    evaluate_model(checkpoint_path, log_to_wandb=log_to_wandb)

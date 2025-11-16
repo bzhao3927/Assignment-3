@@ -39,7 +39,7 @@ def main():
         num_workers=config['num_workers']
     )
     
-    # Initialize model (UPDATED - added max_epochs)
+    # Initialize model
     model = BiLSTMClassifier(
         vocab_size=30522,  # BERT tokenizer vocab size
         embedding_dim=config['embedding_dim'],
@@ -48,7 +48,7 @@ def main():
         dropout=config['dropout'],
         learning_rate=config['learning_rate'],
         weight_decay=config['weight_decay'],
-        max_epochs=config['max_epochs']  # ADDED THIS
+        max_epochs=config['max_epochs']
     )
     
     # Callbacks
