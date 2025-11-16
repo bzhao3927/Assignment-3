@@ -8,7 +8,7 @@ Binary sentiment classification on the IMDB 50K movie review dataset using a Bid
 - Ognian Trajanov
 - Benjamin Zhao
 
-Hamilton College - CS-366 Deep Learning - Fall 2025
+**Hamilton College - CS-366 Deep Learning - Fall 2025**
 
 ## Results
 - **Test Accuracy:** 85.35%
@@ -16,13 +16,13 @@ Hamilton College - CS-366 Deep Learning - Fall 2025
 - **Model Parameters:** 6.3M
 - **Training Time:** ~3 minutes on NVIDIA RTX 5070 Ti
 
-Full results and analysis available in `report.pdf`.
+Full results and analysis available in [`report.pdf`](report.pdf).
 
 ## Model Architecture
-- Embedding: 128-dimensional, randomly initialized (vocab size: 30,522)
-- Bi-LSTM: 2 layers, 256 hidden units per direction
-- Dropout: 0.5
-- Classifier: Binary cross-entropy loss
+- **Embedding:** 128-dimensional, randomly initialized (vocab size: 30,522)
+- **Bi-LSTM:** 2 layers, 256 hidden units per direction
+- **Dropout:** 0.5
+- **Classifier:** Binary cross-entropy loss
 
 ## Installation
 
@@ -91,8 +91,7 @@ pl.seed_everything(42)
 ```
 
 ## Weights & Biases
-View training logs and metrics:
-https://wandb.ai/bzhao-hamilton-college/imdb-sentiment-bilstm
+View training logs and metrics: https://wandb.ai/bzhao-hamilton-college/imdb-sentiment-bilstm
 
 ## References
 - Dataset: [IMDB 50K](https://ai.stanford.edu/~amaas/data/sentiment/)
