@@ -14,8 +14,8 @@ Binary sentiment classification on IMDB 50K dataset with systematic capacity sca
 
 | Model | Params | Max Length | Train Acc | Val Acc |
 |-------|--------|------------|-----------|---------|
-| 256-dim | 10.6M | 256 | 91.2% | 87.3% |
-| 512-dim | 26.1M | 512 | 97.4% | 90.0% |
+| 256-dim | 10.6M | 256 | 91.2% | 87.6% |
+| 512-dim | 26.1M | 512 | 97.4% | 89.9% |
 | 1024-dim | 73.2M | 1024 | 98.1% | 90.0% |
 | **2048-dim** | **230M** | **2048** | **98.2%** | **90.1%** |
 | 4096-dim | 796M | 4096 | OOM | - |
@@ -71,7 +71,7 @@ Generates confusion matrix, classification report, and misclassified examples.
 
 ## Key Findings
 
-1. **Capacity Scaling:** Systematic improvement from 87.3% to 90.1% validation accuracy
+1. **Capacity Scaling:** Systematic improvement from 87.6% to 90.1% validation accuracy
 2. **Generalization:** Larger models generalized better despite more parameters (7-8% train-val gap)
 3. **Hardware Limits:** 4096-dim (796M params) exceeded 16GB GPU memory
 4. **Final Performance:** Best model achieved 91.04% test accuracy on held-out set
