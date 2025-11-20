@@ -20,7 +20,7 @@ Binary sentiment classification on IMDB 50K dataset with systematic capacity sca
 | **2048-dim** | **230M** | **2048** | **98.2%** | **90.5%** |
 | 4096-dim | 796M | 4096 | OOM | - |
 
-Based on validation performance, we selected the **2048-dim model** for final evaluation.
+We selected the **2048-dim model** for final evaluation based on its strong validation performance (90.5%) and greater model capacity.
 
 **Final Test Results (2048-dim):**
 - **Test Accuracy:** 91.04%
