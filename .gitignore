@@ -9,6 +9,7 @@ checkpoints/
 __pycache__/
 *.pyc
 .venv/
+venv/
 
 # System
 .DS_Store
