@@ -103,7 +103,7 @@ Generates confusion matrix, classification report, and misclassified examples.
 
 **Code:** https://github.com/bzhao3927/assignment-3
 
-**Best Run:** `2048-all` (Val: 90.1%, Test: 91.04%)
+**Best Run:** `dim-2048` (Val: 90.1%, Test: 91.04%)
 
 ## References
 - Dataset: [IMDB 50K](https://ai.stanford.edu/~amaas/data/sentiment/)
