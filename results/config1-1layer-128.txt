@@ -1,0 +1,12 @@
+Configuration: config1-1layer-128
+num_layers: 1
+embedding_dim: 128
+hidden_dim: 128
+dropout: 0.3
+learning_rate: 0.001
+
+Results:
+Best Val Accuracy: 0.8496
+Test Accuracy: 0.8312
+Test Loss: 0.6279
+Best checkpoint: /home/bzhao/Assignment3/checkpoints/config1-1layer-128/best-epoch=06-val_acc=0.8496.ckpt

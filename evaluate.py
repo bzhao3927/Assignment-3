@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from transformers import BertTokenizer
 import wandb
+import argparse
 
 def plot_confusion_matrix(y_true, y_pred, save_path='confusion_matrix.png'):
     """Plot and save confusion matrix"""
@@ -32,14 +33,13 @@ def plot_confusion_matrix(y_true, y_pred, save_path='confusion_matrix.png'):
     print("\nConfusion Matrix:")
     print(cm)
     
-    return plt.gcf()  # Return figure for W&B logging
+    return plt.gcf()
 
 def find_misclassified_examples(model, data_module, num_examples=3):
     """Find and print misclassified examples"""
     model.eval()
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
     
-    # Get test dataloader
     test_loader = data_module.test_dataloader()
     
     misclassified = []
@@ -53,7 +53,6 @@ def find_misclassified_examples(model, data_module, num_examples=3):
             logits = model(input_ids, attention_mask)
             preds = (torch.sigmoid(logits) > 0.5).long()
             
-            # Find misclassified samples in this batch
             for i in range(len(labels)):
                 if preds[i] != labels[i]:
                     text = tokenizer.decode(input_ids[i], skip_special_tokens=True)
@@ -71,34 +70,32 @@ def find_misclassified_examples(model, data_module, num_examples=3):
     
     return misclassified
 
-def evaluate_model(checkpoint_path, log_to_wandb=True):
+def evaluate_model(checkpoint_path, max_length, log_to_wandb=True):
     """Load model and evaluate on test set"""
     pl.seed_everything(42)
     
-    # Initialize W&B if requested
+    print(f"Using max_length={max_length}")
+    
     if log_to_wandb:
         wandb.init(
             project='imdb-sentiment-bilstm',
             name='evaluation',
-            job_type='evaluation'
+            job_type='evaluation',
+            config={'max_length': max_length}
         )
     
-    # Load data module
-    data_module = IMDBDataModule(batch_size=32, max_length=256, num_workers=4)
+    data_module = IMDBDataModule(batch_size=32, max_length=max_length, num_workers=4)
     data_module.setup('test')
     
-    # Load model from checkpoint
     model = BiLSTMClassifier.load_from_checkpoint(checkpoint_path)
     model.eval()
     
-    # Create trainer for testing
     trainer = pl.Trainer(
         accelerator='auto',
         devices=1,
         logger=False
     )
     
-    # Test the model
     test_results = trainer.test(model, data_module)
     
     print("\n" + "="*50)
@@ -107,7 +104,6 @@ def evaluate_model(checkpoint_path, log_to_wandb=True):
     print(f"Test Accuracy: {test_results[0]['test_acc']:.4f}")
     print(f"Test Loss: {test_results[0]['test_loss']:.4f}")
     
-    # Get predictions for confusion matrix
     predictions = []
     true_labels = []
     
@@ -125,10 +121,8 @@ def evaluate_model(checkpoint_path, log_to_wandb=True):
             predictions.extend(preds)
             true_labels.extend(labels.numpy())
     
-    # Plot confusion matrix
     fig = plot_confusion_matrix(true_labels, predictions)
     
-    # Print classification report
     print("\n" + "="*50)
     print("CLASSIFICATION REPORT")
     print("="*50)
@@ -146,13 +140,11 @@ def evaluate_model(checkpoint_path, log_to_wandb=True):
         digits=4
     ))
     
-    # Find misclassified examples
     print("\n" + "="*50)
     print("MISCLASSIFIED EXAMPLES")
     print("="*50)
     misclassified = find_misclassified_examples(model, data_module, num_examples=3)
     
-    # Create misclassified examples table for W&B
     misclassified_table = []
     for i, example in enumerate(misclassified, 1):
         print(f"\nExample {i}:")
@@ -168,9 +160,7 @@ def evaluate_model(checkpoint_path, log_to_wandb=True):
             example['text'][:200]
         ])
     
-    # Log to W&B
     if log_to_wandb:
-        # Log metrics
         wandb.log({
             'eval/test_accuracy': test_results[0]['test_acc'],
             'eval/test_loss': test_results[0]['test_loss'],
@@ -183,10 +173,8 @@ def evaluate_model(checkpoint_path, log_to_wandb=True):
             'eval/macro_avg_f1': report['macro avg']['f1-score'],
         })
         
-        # Log confusion matrix
         wandb.log({"eval/confusion_matrix": wandb.Image(fig)})
         
-        # Log misclassified examples table
         wandb.log({
             "eval/misclassified_examples": wandb.Table(
                 columns=["Example #", "True Label", "Predicted Label", "Text (truncated)"],
@@ -200,14 +188,17 @@ def evaluate_model(checkpoint_path, log_to_wandb=True):
     plt.close()
 
 if __name__ == '__main__':
-    import sys
+    parser = argparse.ArgumentParser(description='Evaluate BiLSTM model on IMDB test set')
+    parser.add_argument('checkpoint_path', type=str, help='Path to model checkpoint')
+    parser.add_argument('--max-length', type=int, required=True, 
+                       help='Maximum sequence length (REQUIRED - must match training)')
+    parser.add_argument('--no-wandb', action='store_true', 
+                       help='Disable Weights & Biases logging')
     
-    if len(sys.argv) < 2:
-        print("Usage: python evaluate.py <checkpoint_path> [--no-wandb]")
-        print("Example: python evaluate.py checkpoints/bilstm-epoch=05-val_loss=0.25.ckpt")
-        sys.exit(1)
+    args = parser.parse_args()
     
-    checkpoint_path = sys.argv[1]
-    log_to_wandb = '--no-wandb' not in sys.argv
-    
-    evaluate_model(checkpoint_path, log_to_wandb=log_to_wandb)
+    evaluate_model(
+        checkpoint_path=args.checkpoint_path,
+        max_length=args.max_length,
+        log_to_wandb=not args.no_wandb
+    )

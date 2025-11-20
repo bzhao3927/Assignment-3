@@ -13,11 +13,11 @@ def main():
     # Hyperparameters
     config = {
         'batch_size': 32,
-        'max_length': 256,
-        'embedding_dim': 128,
-        'hidden_dim': 256,
+        'max_length': 2048,
+        'embedding_dim': 2048,
+        'hidden_dim': 2048,
         'num_layers': 2,
-        'dropout': 0.5,
+        'dropout': 0.3,
         'learning_rate': 0.001,
         'weight_decay': 1e-5,
         'max_epochs': 20,
@@ -28,7 +28,7 @@ def main():
     wandb.login()
     wandb_logger = WandbLogger(
         project='imdb-sentiment-bilstm',
-        name='bilstm-run-improved',
+        name='dim-2048',
         config=config
     )
     
@@ -41,14 +41,14 @@ def main():
     
     # Initialize model
     model = BiLSTMClassifier(
-        vocab_size=30522,  # BERT tokenizer vocab size
+        vocab_size=30522,
         embedding_dim=config['embedding_dim'],
         hidden_dim=config['hidden_dim'],
         num_layers=config['num_layers'],
         dropout=config['dropout'],
         learning_rate=config['learning_rate'],
         weight_decay=config['weight_decay'],
-        max_epochs=config['max_epochs']
+        max_epochs=config['max_epochs'],
     )
     
     # Callbacks
@@ -62,7 +62,7 @@ def main():
     
     early_stop_callback = EarlyStopping(
         monitor='val_loss',
-        patience=3,
+        patience=2,
         mode='min',
         verbose=True
     )

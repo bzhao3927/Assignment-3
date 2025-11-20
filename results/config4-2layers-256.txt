@@ -1,0 +1,12 @@
+Configuration: config4-2layers-256
+num_layers: 2
+embedding_dim: 256
+hidden_dim: 256
+dropout: 0.5
+learning_rate: 0.001
+
+Results:
+Best Val Accuracy: 0.8701
+Test Accuracy: 0.8529
+Test Loss: 0.4458
+Best checkpoint: /home/bzhao/Assignment3/checkpoints/config4-2layers-256/best-epoch=04-val_acc=0.8701.ckpt

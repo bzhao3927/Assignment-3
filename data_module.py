@@ -65,53 +65,48 @@ class IMDBDataModule(pl.LightningDataModule):
         random.seed(42)
         np.random.seed(42)
         
-        # Load TRAIN data (25K - will be split into train + val)
+        # Load ALL data (50K total)
         train_pos = self.load_texts_from_folder(f'{self.data_dir}/train/pos')
         train_neg = self.load_texts_from_folder(f'{self.data_dir}/train/neg')
-        
-        # Load TEST data (25K - keep as test set)
         test_pos = self.load_texts_from_folder(f'{self.data_dir}/test/pos')
         test_neg = self.load_texts_from_folder(f'{self.data_dir}/test/neg')
         
-        # Combine train pos/neg
-        train_texts = train_pos + train_neg
-        train_labels = [1] * len(train_pos) + [0] * len(train_neg)
+        # Combine ALL 50K reviews
+        all_texts = train_pos + train_neg + test_pos + test_neg
+        all_labels = (
+            [1] * len(train_pos) + [0] * len(train_neg) +
+            [1] * len(test_pos) + [0] * len(test_neg)
+        )
         
-        # Shuffle train data
-        train_indices = list(range(len(train_texts)))
-        np.random.shuffle(train_indices)
-        train_texts = [train_texts[i] for i in train_indices]
-        train_labels = [train_labels[i] for i in train_indices]
+        # Shuffle all data
+        all_indices = list(range(len(all_texts)))
+        np.random.shuffle(all_indices)
+        all_texts = [all_texts[i] for i in all_indices]
+        all_labels = [all_labels[i] for i in all_indices]
         
-        # Split train into train (85%) and val (15%)
-        # 25K * 0.85 = 21,250 train
-        # 25K * 0.15 = 3,750 val
-        val_size = int(0.15 * len(train_texts))
-        train_size = len(train_texts) - val_size
+        # Split into 70% train / 15% val / 15% test
+        total = len(all_texts)  # 50,000
+        train_size = int(0.70 * total)  # 35,000
+        val_size = int(0.15 * total)     # 7,500
+        test_size = total - train_size - val_size  # 7,500
         
-        final_train_texts = train_texts[:train_size]
-        final_train_labels = train_labels[:train_size]
+        # Create splits
+        train_texts = all_texts[:train_size]
+        train_labels = all_labels[:train_size]
         
-        val_texts = train_texts[train_size:]
-        val_labels = train_labels[train_size:]
+        val_texts = all_texts[train_size:train_size + val_size]
+        val_labels = all_labels[train_size:train_size + val_size]
         
-        # Combine test pos/neg
-        test_texts = test_pos + test_neg
-        test_labels = [1] * len(test_pos) + [0] * len(test_neg)
-        
-        # Shuffle test data
-        test_indices = list(range(len(test_texts)))
-        np.random.shuffle(test_indices)
-        test_texts = [test_texts[i] for i in test_indices]
-        test_labels = [test_labels[i] for i in test_indices]
+        test_texts = all_texts[train_size + val_size:]
+        test_labels = all_labels[train_size + val_size:]
         
         # Print split statistics
-        print(f"Train: {len(final_train_texts)}, Val: {len(val_texts)}, Test: {len(test_texts)}")
+        print(f"Train: {len(train_texts)}, Val: {len(val_texts)}, Test: {len(test_texts)}")
         
         # Create datasets
         if stage == 'fit' or stage is None:
             self.train_dataset = IMDBDataset(
-                final_train_texts, final_train_labels, self.tokenizer, self.max_length
+                train_texts, train_labels, self.tokenizer, self.max_length
             )
             self.val_dataset = IMDBDataset(
                 val_texts, val_labels, self.tokenizer, self.max_length
