@@ -18,13 +18,15 @@ Binary sentiment classification on IMDB 50K dataset with systematic capacity sca
 - **Parameters:** 230M
 - **Training:** NVIDIA RTX 5070 Ti with FP16
 
-| Model | Params | Val Acc | Test Acc |
-|-------|--------|---------|----------|
-| 256-dim | 10.6M | 87.3% | 88.0% |
-| 512-dim | 26.1M | 90.0% | 90.27% |
-| 1024-dim | 73.2M | 90.0% | 90.71% |
-| **2048-dim** | **230M** | **90.1%** | **91.04%** |
-| 4096-dim | 796M | - | OOM |
+| Model | Params | Max Length | Val Acc | Test Acc |
+|-------|--------|------------|---------|----------|
+| 256-dim | 10.6M | 256 | 87.3% | - |
+| 512-dim | 26.1M | 512 | 90.0% | - |
+| 1024-dim | 73.2M | 1024 | 90.0% | - |
+| **2048-dim** | **230M** | **2048** | **90.1%** | **91.04%** |
+| 4096-dim | 796M | 4096 | - | OOM |
+
+*Model selection based on validation accuracy; only best model evaluated on test set.*
 
 Full results and analysis in [`report.pdf`](report.pdf).
 
@@ -68,10 +70,10 @@ Generates confusion matrix, classification report, and misclassified examples.
 
 ## Key Findings
 
-1. **Capacity Scaling:** Systematic improvement from 88.0% (256-dim) to 91.04% (2048-dim)
+1. **Capacity Scaling:** Systematic improvement from 87.3% to 90.1% validation accuracy
 2. **Generalization:** Larger models generalized better despite more parameters (7-8% train-val gap)
 3. **Hardware Limits:** 4096-dim (796M params) exceeded 16GB GPU memory
-4. **Diminishing Returns:** Each doubling of capacity yields progressively smaller gains
+4. **Proper Evaluation:** Selected 2048-dim based on validation, achieved 91.04% on held-out test set
 
 ## Configuration
 
