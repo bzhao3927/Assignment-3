@@ -14,10 +14,10 @@ Binary sentiment classification on IMDB 50K dataset with systematic capacity sca
 
 | Model | Params | Max Length | Train Acc | Val Acc |
 |-------|--------|------------|-----------|---------|
-| 256-dim | 10.6M | 256 | 91.2% | 87.6% |
-| 512-dim | 26.1M | 512 | 97.4% | 89.9% |
-| 1024-dim | 73.2M | 1024 | 98.1% | 90.0% |
-| **2048-dim** | **230M** | **2048** | **98.2%** | **90.1%** |
+| 256-dim | 10.6M | 256 | 97.2% | 87.9% |
+| 512-dim | 26.1M | 512 | 98.6% | 90.3% |
+| 1024-dim | 73.2M | 1024 | 98.1% | 90.6% |
+| **2048-dim** | **230M** | **2048** | **98.2%** | **90.5%** |
 | 4096-dim | 796M | 4096 | OOM | - |
 
 Based on validation performance, we selected the **2048-dim model** for final evaluation.
@@ -71,7 +71,7 @@ Generates confusion matrix, classification report, and misclassified examples.
 
 ## Key Findings
 
-1. **Capacity Scaling:** Systematic improvement from 87.6% to 90.1% validation accuracy
+1. **Capacity Scaling:** Systematic improvement from 87.9% to 90.6% validation accuracy
 2. **Generalization:** Larger models generalized better despite more parameters (7-8% train-val gap)
 3. **Hardware Limits:** 4096-dim (796M params) exceeded 16GB GPU memory
 4. **Final Performance:** Best model achieved 91.04% test accuracy on held-out set
@@ -106,7 +106,7 @@ Generates confusion matrix, classification report, and misclassified examples.
 
 **GitHub:** https://github.com/bzhao3927/Assignment-3
 
-**Best Run:** `dim-2048` (Val: 90.1%, Test: 91.04%)
+**Best Run:** `dim-2048` (Val: 90.5%, Test: 91.04%)
 
 ## References
 - Dataset: [IMDB 50K](https://ai.stanford.edu/~amaas/data/sentiment/)

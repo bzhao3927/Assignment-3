@@ -1,8 +1,9 @@
 # Dataset
 aclImdb/
 
-# Checkpoints
+# Checkpoints and logs
 checkpoints/
+wandb/
 
 # Python
 __pycache__/
