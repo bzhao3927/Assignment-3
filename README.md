@@ -61,8 +61,8 @@ python train.py --embedding-dim 512 --hidden-dim 512 --max-length 512
 
 ### Evaluation
 ```bash
-# Must specify matching max-length
-python evaluate.py checkpoints/bilstm-epoch=01-val_loss=0.24-v2.ckpt --max-length 2048
+# Model checkpoints saved in wandb/ directory
+python evaluate.py wandb/run-xxx/files/model.ckpt --max-length 2048
 ```
 
 Generates confusion matrix, classification report, and misclassified examples.
@@ -91,10 +91,11 @@ Generates confusion matrix, classification report, and misclassified examples.
 ├── train.py              # Training with capacity arguments
 ├── model.py              # Bi-LSTM definition
 ├── data_module.py        # Data loading
-├── evaluate.py           # Evaluation (requires --max-length)
+├── evaluate.py           # Evaluation script
 ├── requirements.txt      # Dependencies
 ├── report.pdf            # Full analysis
-└── checkpoints/          # Model weights
+├── confusion_matrix.png  # Test set confusion matrix
+└── wandb/                # W&B logs and checkpoints
 ```
 
 ## Links
