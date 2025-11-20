@@ -59,10 +59,12 @@ python train.py --embedding-dim 1024 --hidden-dim 1024 --max-length 1024
 python train.py --embedding-dim 512 --hidden-dim 512 --max-length 512
 ```
 
+Model checkpoints automatically saved via PyTorch Lightning to `wandb/` directory.
+
 ### Evaluation
 ```bash
-# Model checkpoints saved in wandb/ directory
-python evaluate.py wandb/run-xxx/files/model.ckpt --max-length 2048
+# Evaluate saved checkpoint (specify matching max-length)
+python evaluate.py <path-to-checkpoint.ckpt> --max-length 2048
 ```
 
 Generates confusion matrix, classification report, and misclassified examples.
@@ -88,21 +90,21 @@ Generates confusion matrix, classification report, and misclassified examples.
 ## File Structure
 ```
 .
-├── train.py              # Training with capacity arguments
-├── model.py              # Bi-LSTM definition
-├── data_module.py        # Data loading
+├── train.py              # Training script
+├── model.py              # Bi-LSTM model definition
+├── data_module.py        # Data loading and preprocessing
 ├── evaluate.py           # Evaluation script
-├── requirements.txt      # Dependencies
-├── report.pdf            # Full analysis
+├── requirements.txt      # Python dependencies
+├── report.pdf            # Full analysis report
 ├── confusion_matrix.png  # Test set confusion matrix
-└── wandb/                # W&B logs and checkpoints
+└── wandb/                # W&B logs and model checkpoints
 ```
 
 ## Links
 
 **W&B Project:** https://wandb.ai/bzhao-hamilton-college/imdb-sentiment-bilstm
 
-**Code:** https://github.com/bzhao3927/assignment-3
+**GitHub:** https://github.com/bzhao3927/Assignment-3
 
 **Best Run:** `dim-2048` (Val: 90.1%, Test: 91.04%)
 
