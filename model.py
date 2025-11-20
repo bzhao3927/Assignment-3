@@ -42,7 +42,7 @@ class BiLSTMClassifier(pl.LightningModule):
         self.test_accuracy = Accuracy(task='binary')
     
     def forward(self, input_ids, attention_mask=None):
-        # Embedding (randomly initialized, trained from scratch)
+        # Embedding (randomly initialized)
         embedded = self.embedding(input_ids)
         
         # Pack padded sequence if attention_mask is provided
