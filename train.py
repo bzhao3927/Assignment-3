@@ -13,9 +13,9 @@ def main():
     # Hyperparameters
     config = {
         'batch_size': 32,
-        'max_length': 256,
-        'embedding_dim': 256,
-        'hidden_dim': 256,
+        'max_length': 2048,
+        'embedding_dim': 2048,
+        'hidden_dim': 2048,
         'num_layers': 2,
         'dropout': 0.3,
         'learning_rate': 0.001,
@@ -28,7 +28,7 @@ def main():
     wandb.login()
     wandb_logger = WandbLogger(
         project='imdb-sentiment-bilstm',
-        name='dim-256',
+        name='dim-2048',
         config=config
     )
     
