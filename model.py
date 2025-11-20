@@ -22,7 +22,7 @@ class BiLSTMClassifier(pl.LightningModule):
         self.weight_decay = weight_decay
         self.max_epochs = max_epochs
         
-        # Layers - all randomly initialized (NOT pretrained)
+        # Layers - all randomly initialized
         self.embedding = nn.Embedding(vocab_size, embedding_dim, padding_idx=0)
         self.lstm = nn.LSTM(
             embedding_dim, 
