@@ -1,0 +1,86 @@
+Train: 35000, Val: 7500, Test: 7500
+/opt/miniforge3/lib/python3.12/site-packages/pytorch_lightning/utilities/migration/utils.py:56: The loaded checkpoint was produced with Lightning v2.5.6, which is newer than your current Lightning version: v2.5.5
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+/opt/miniforge3/lib/python3.12/site-packages/torch/__init__.py:1551: UserWarning: Please use the new API settings to control TF32 behavior, such as torch.backends.cudnn.conv.fp32_precision = 'tf32' or torch.backends.cuda.matmul.fp32_precision = 'ieee'. Old settings, e.g, torch.backends.cuda.matmul.allow_tf32 = True, torch.backends.cudnn.allow_tf32 = True, allowTF32CuDNN() and allowTF32CuBLAS() will be deprecated after Pytorch 2.9. Please see https://pytorch.org/docs/main/notes/cuda.html#tensorfloat-32-tf32-on-ampere-and-later-devices (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:80.)
+  return _C._get_float32_matmul_precision()
+You are using a CUDA device ('NVIDIA GeForce RTX 5070 Ti') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+Train: 35000, Val: 7500, Test: 7500
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+Testing DataLoader 0: 100%|████████████████████████████████████████████████████████████████████████████████████████████████| 235/235 [01:31<00:00,  2.57it/s]
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.9103999733924866
+        test_loss           0.22189649939537048
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+==================================================
+TEST RESULTS
+==================================================
+Test Accuracy: 0.9104
+Test Loss: 0.2219
+Confusion matrix saved to confusion_matrix.png
+
+Confusion Matrix:
+[[3322  403]
+ [ 269 3506]]
+
+==================================================
+CLASSIFICATION REPORT
+==================================================
+              precision    recall  f1-score   support
+
+    Negative     0.9251    0.8918    0.9081      3725
+    Positive     0.8969    0.9287    0.9125      3775
+
+    accuracy                         0.9104      7500
+   macro avg     0.9110    0.9103    0.9103      7500
+weighted avg     0.9109    0.9104    0.9104      7500
+
+
+==================================================
+FALSE POSITIVE EXAMPLES
+==================================================
+
+False Positive 1:
+True Label: Negative
+Predicted Label: Positive
+Text: this has to rate as one of the cheesiest of tv shows in a long time. < br / > < br / > jose ferrer played the title character, nemo. he did the part justice and certainly looked the part. but nowadays...
+--------------------------------------------------
+
+False Positive 2:
+True Label: Negative
+Predicted Label: Positive
+Text: this movie received a great write up in blockbusters'coming attraction'i was looking forward to the release date, 08 / 07 / 02. the plot sounds reasonable, the cast alone should have guaranteed a side...
+--------------------------------------------------
+
+False Positive 3:
+True Label: Negative
+Predicted Label: Positive
+Text: you may be interested to know that barricade was viewed as a failure by the studio and shelved for a year before alice faye's popularity reached such a high that the studio decided to release the film...
+--------------------------------------------------
+
+==================================================
+FALSE NEGATIVE EXAMPLES
+==================================================
+
+False Negative 1:
+True Label: Positive
+Predicted Label: Negative
+Text: for those of you unfamiliar with jimmy stewart, this is one of his " lesser " films from later in his career. and, while it isn't a great film compared to many of his other pictures, it isn't bad and ...
+--------------------------------------------------
+
+False Negative 2:
+True Label: Positive
+Predicted Label: Negative
+Text: nurse charlotte beale ( the lovely rosie holotik ) has arrived to dr. stephens'clinic for the insane prepared for a new job. what she doesn't expect is to find another supposed doctor in his position ...
+--------------------------------------------------
+
+False Negative 3:
+True Label: Positive
+Predicted Label: Negative
+Text: i cannot understand the need to jump backwards and forwards to scene set, and pad out the plot. showing that someone has a skill right before they use it, i believe, is offending our intelligence. it'...
+--------------------------------------------------

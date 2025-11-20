@@ -1,0 +1,45 @@
+{
+  "os": "Linux-6.12.10-76061203-generic-x86_64-with-glibc2.35",
+  "python": "CPython 3.12.10",
+  "startedAt": "2025-11-20T04:06:06.120611Z",
+  "args": [
+    "/home/bzhao/Assignment3/checkpoints/bilstm-epoch=01-val_loss=0.24-v2.ckpt",
+    "--max-length",
+    "2048"
+  ],
+  "program": "/home/bzhao/Assignment3/evaluate.py",
+  "codePath": "evaluate.py",
+  "codePathLocal": "evaluate.py",
+  "git": {
+    "remote": "https://github.com/bzhao3927/assignment-3.git",
+    "commit": "a71faef62d328d9930419f58c96a21979262fc39"
+  },
+  "email": "bzhao@hamilton.edu",
+  "root": "/home/bzhao/Assignment3",
+  "host": "cs-dept-llm-3",
+  "executable": "/opt/miniforge3/bin/python",
+  "cpu_count": 6,
+  "cpu_count_logical": 12,
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "gpu_count": 1,
+  "disk": {
+    "/": {
+      "total": "973837025280",
+      "used": "239889711104"
+    }
+  },
+  "memory": {
+    "total": "32747769856"
+  },
+  "gpu_nvidia": [
+    {
+      "name": "NVIDIA GeForce RTX 5070 Ti",
+      "memoryTotal": "17094934528",
+      "cudaCores": 8960,
+      "architecture": "Blackwell",
+      "uuid": "GPU-9acc7df5-5214-c539-865c-a5c91e1fda2f"
+    }
+  ],
+  "cudaVersion": "12.8",
+  "writerId": "n2x8cmj22cpu9mdixnwyommtgj7bsxf5"
+}

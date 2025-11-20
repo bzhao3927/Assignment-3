@@ -1,0 +1,72 @@
+_wandb:
+    value:
+        cli_version: 0.22.2
+        e:
+            n2x8cmj22cpu9mdixnwyommtgj7bsxf5:
+                args:
+                    - /home/bzhao/Assignment3/checkpoints/bilstm-epoch=01-val_loss=0.24-v2.ckpt
+                    - --max-length
+                    - "2048"
+                codePath: evaluate.py
+                codePathLocal: evaluate.py
+                cpu_count: 6
+                cpu_count_logical: 12
+                cudaVersion: "12.8"
+                disk:
+                    /:
+                        total: "973837025280"
+                        used: "239889711104"
+                email: bzhao@hamilton.edu
+                executable: /opt/miniforge3/bin/python
+                git:
+                    commit: a71faef62d328d9930419f58c96a21979262fc39
+                    remote: https://github.com/bzhao3927/assignment-3.git
+                gpu: NVIDIA GeForce RTX 5070 Ti
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Blackwell
+                      cudaCores: 8960
+                      memoryTotal: "17094934528"
+                      name: NVIDIA GeForce RTX 5070 Ti
+                      uuid: GPU-9acc7df5-5214-c539-865c-a5c91e1fda2f
+                host: cs-dept-llm-3
+                memory:
+                    total: "32747769856"
+                os: Linux-6.12.10-76061203-generic-x86_64-with-glibc2.35
+                program: /home/bzhao/Assignment3/evaluate.py
+                python: CPython 3.12.10
+                root: /home/bzhao/Assignment3
+                startedAt: "2025-11-20T04:06:06.120611Z"
+                writerId: n2x8cmj22cpu9mdixnwyommtgj7bsxf5
+        m: []
+        python_version: 3.12.10
+        t:
+            "1":
+                - 1
+                - 5
+                - 9
+                - 11
+                - 41
+                - 49
+                - 53
+                - 103
+            "2":
+                - 1
+                - 5
+                - 9
+                - 11
+                - 41
+                - 49
+                - 53
+                - 103
+            "3":
+                - 2
+                - 13
+                - 16
+            "4": 3.12.10
+            "5": 0.22.2
+            "6": 4.57.1
+            "12": 0.22.2
+            "13": linux-x86_64
+max_length:
+    value: 2048

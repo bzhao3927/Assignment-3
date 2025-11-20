@@ -1,8 +1,7 @@
 # Dataset
 aclImdb/
 
-# Checkpoints and logs
-wandb/
+# Checkpoints
 checkpoints/
 
 # Python

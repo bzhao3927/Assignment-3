@@ -1,0 +1,37 @@
+Train: 35000, Val: 7500, Test: 7500
+/home/bzhao/Assignment3/.venv/lib/python3.10/site-packages/pytorch_lightning/callbacks/model_checkpoint.py:751: Checkpoint directory /home/bzhao/Assignment3/checkpoints exists and is not empty.
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+/home/bzhao/Assignment3/.venv/lib/python3.10/site-packages/pytorch_lightning/utilities/model_summary/model_summary.py:231: Precision 16-mixed is not supported by the model summary.  Estimated model size in MB will not be accurate. Using 32 bits instead.
+
+  | Name           | Type              | Params | Mode
+-------------------------------------------------------------
+0 | embedding      | Embedding         | 62.5 M | train
+1 | lstm           | LSTM              | 167 M  | train
+2 | dropout        | Dropout           | 0      | train
+3 | fc             | Linear            | 4.1 K  | train
+4 | criterion      | BCEWithLogitsLoss | 0      | train
+5 | train_accuracy | BinaryAccuracy    | 0      | train
+6 | val_accuracy   | BinaryAccuracy    | 0      | train
+7 | test_accuracy  | BinaryAccuracy    | 0      | train
+-------------------------------------------------------------
+230 M     Trainable params
+0         Non-trainable params
+230 M     Total params
+921.403   Total estimated model params size (MB)
+8         Modules in train mode
+0         Modules in eval mode
+Epoch 3: 100%|█| 1094/1094 [09:36<00:00,  1.90it/s, v_num=pp4d, train_loss_step=0.0936, val_loss=0.313, val_acc=0.901, train_loss_epoch=0.0588, train_acc=0.9
+Train: 35000, Val: 7500, Test: 7500                                                                                                                          
+Metric val_loss improved. New best score: 0.269
+Metric val_loss improved by 0.031 >= min_delta = 0.0. New best score: 0.237
+Monitored metric val_loss did not improve in the last 2 records. Best score: 0.237. Signaling Trainer to stop.
+Restoring states from the checkpoint path at /home/bzhao/Assignment3/checkpoints/bilstm-epoch=01-val_loss=0.24-v2.ckpt
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+Loaded model weights from the checkpoint at /home/bzhao/Assignment3/checkpoints/bilstm-epoch=01-val_loss=0.24-v2.ckpt
+Testing DataLoader 0: 100%|████████████████████████████████████████████████████████████████████████████████████████████████| 235/235 [00:41<00:00,  5.63it/s]
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.9103999733924866
+        test_loss           0.22189396619796753
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
