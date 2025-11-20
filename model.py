@@ -120,7 +120,7 @@ class BiLSTMClassifier(pl.LightningModule):
         return loss
     
     def configure_optimizers(self):
-        # Use AdamW optimizer (better weight decay than Adam)
+        # Use AdamW optimizer
         optimizer = torch.optim.AdamW(
             self.parameters(), 
             lr=self.learning_rate,
