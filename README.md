@@ -71,7 +71,7 @@ Generates confusion matrix, classification report, and misclassified examples.
 
 ## Key Findings
 
-1. **Capacity Scaling:** Systematic improvement from 87.9% to 90.6% validation accuracy
+1. **Capacity Scaling:** Systematic improvement from 87.9% to 90.5% validation accuracy
 2. **Generalization:** Larger models generalized better despite more parameters (7-8% train-val gap)
 3. **Hardware Limits:** 4096-dim (796M params) exceeded 16GB GPU memory
 4. **Final Performance:** Best model achieved 91.04% test accuracy on held-out set
