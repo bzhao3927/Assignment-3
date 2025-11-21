@@ -45,7 +45,14 @@ source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-Dataset auto-downloads on first run.
+**Download the IMDB dataset:**
+```bash
+# Download and extract
+wget http://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz
+tar -xzf aclImdb_v1.tar.gz
+```
+
+Or manually download from [IMDB 50K Dataset](https://ai.stanford.edu/~amaas/data/sentiment/) and extract to `aclImdb/` directory.
 
 ## Usage
 
